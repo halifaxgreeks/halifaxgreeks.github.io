@@ -18,7 +18,6 @@
     margin-right: 10%;
 }
 
-@media screen and (max-width: 736px) {
-    margin-top: 45%;
-    font-size: 1em;
+.nav-link {
+    margin-left: 10px;
 }
