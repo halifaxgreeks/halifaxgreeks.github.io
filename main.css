@@ -18,6 +18,8 @@
     margin-right: 10%;
 }
 
-:not(.nav .nav-link:last-child) {
-    border-right: 0;
+@media (min-width: 576px) {
+    :not(.nav .nav-link:last-child) {
+        border-right: 0;
+    }
 }
