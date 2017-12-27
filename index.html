@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="main.css" rel="stylesheet">
+    <script src="/js/knockout-3.4.2.js"></script>
   </head>
 
   <body>
@@ -20,42 +21,85 @@
     <section class="bgimage">
         <div class="container h-90 d-flex justify-content-center">
             <div class="jumbotron header-div">
-              <h1 class="display-3 hero-text">St. George's Greek Orthodox Church and Community Centre</h1>
+              <h1 class="display-3 hero-text" data-bind="text: contents().mainTitle">St. George's Greek Orthodox Church and Community Centre</h1>
+
+              <a class="language-toggle-btn btn btn-warning rounded-0" data-bind="click: toggleLanguage, text: contents().toggle">Toggle Language</a>
 
               <br />
                 <nav class="nav flex-column flex-sm-row">
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#">Community Hall Rental</a>
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#">Bylaws</a>
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#">Contact Info</a>
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#">Misc announcements</a>
+                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().commHallRent"></a>
+                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().bylaws">Bylaws</a>
+                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().contactinfo">Contact Info</a>
+                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().announcements">Misc announcements</a>
                 </nav>
             </div>
-
-<!--
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
-          <li class="nav-item dropup">
-            <a class="nav-link dropdown-toggle" href="https://getbootstrap.com" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropup</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown10">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-        </ul>
-      </div>-->
-
         </div>
     </section>
+
+    <script>
+
+        resourceStore = {
+            en: {
+                translation: {
+                    'mainTitle': 'St. George\'s Greek Orthodox Church and Community Centre',
+                    'commHallRent': 'Community Hall Rental',
+                    'bylaws': 'Bylaws',
+                    'contactinfo': 'Contact Info',
+                    'announcements': 'Misc Announcements',
+                    'toggle': 'Αλλάξτε Γλώσσα',
+                }
+            },
+
+            gr: {
+                translation: {
+                    'mainTitle': 'Ελληνική Ορθόδοξη Εκκλησία Αγ. Γεωργίου και Κοινοτικό Κέντρο',
+                    'commHallRent': "Ενοικίαση Κοινοτικής Αίθουσας",
+                    'bylaws': 'Εσωτερικοί Κανονισμοί',
+                    'contactinfo': 'Πληροφορίες Επικοινωνίας',
+                    'announcements': 'Ανακοινώσεις',
+                    'toggle': 'Switch to English'
+                }
+            }
+        }
+
+        var language = "en";
+
+        var SplashPage = function(language) {
+            self = this;
+
+            self.language = ko.observable(language);
+
+            self.contents = ko.computed(function () {
+
+                if (self.language().toLowerCase() == 'el-gr') {
+                    return resourceStore.gr.translation;
+                }
+                else {
+                    return resourceStore.en.translation;
+                }
+
+            }, self);
+
+            self.toggleLanguage = function () {
+                var l = self.language();
+                if (l.toLowerCase() == 'el-gr') {
+                    self.language('en-US');
+                }
+                else {
+                    self.language('el-GR');
+                }
+            }
+        };
+
+        var userLang = navigator.language || navigator.userLanguage; 
+        
+        window.instance = new SplashPage(userLang);
+
+
+        ko.applyBindings(window.instance);
+
+
+    </script>
 
 
     <!-- Bootstrap core JavaScript
