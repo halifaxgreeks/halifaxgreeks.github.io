@@ -13,93 +13,33 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="main.css" rel="stylesheet">
-    <script src="/js/knockout-3.4.2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
   </head>
 
   <body>
+    <div id="splash-main-app">
 
-    <section class="bgimage">
-        <div class="container h-90 d-flex justify-content-center">
-            <div class="jumbotron header-div">
-              <h1 class="display-3 hero-text" data-bind="text: contents().mainTitle">St. George's Greek Orthodox Church and Community Centre</h1>
+        <section class="bgimage">
+            <div class="container h-90 d-flex justify-content-center">
+                <div class="jumbotron header-div">
+                  <h1 class="display-3 hero-text">{{ contents.mainTitle }}</h1>
+                  
+                  <a class="language-toggle-btn btn btn-warning rounded-0" v-on:click="toggleLanguage">{{ contents.toggle }} </a>
 
-              <a class="language-toggle-btn btn btn-warning rounded-0" data-bind="click: toggleLanguage, text: contents().toggle">Toggle Language</a>
-
-              <br />
-                <nav class="nav flex-column flex-sm-row">
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().commHallRent"></a>
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().bylaws">Bylaws</a>
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().contactinfo">Contact Info</a>
-                  <a class="nav-link btn btn-outline-info rounded-0" href="#" data-bind="text: contents().announcements">Misc announcements</a>
-                </nav>
+                  <br />
+                    <nav class="nav flex-column flex-sm-row">
+                      <a class="nav-link btn btn-outline-info rounded-0" href="#">{{ contents.commHallRent }}</a>
+                      <a class="nav-link btn btn-outline-info rounded-0" href="#">{{ contents.bylaws }}</a>
+                      <a class="nav-link btn btn-outline-info rounded-0" href="#">{{ contents.contactinfo }}</a>
+                      <a class="nav-link btn btn-outline-info rounded-0" href="#">{{ contents.announcements }}</a>
+                    </nav>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <script>
-
-        resourceStore = {
-            en: {
-                translation: {
-                    'mainTitle': 'St. George\'s Greek Orthodox Church and Community Centre',
-                    'commHallRent': 'Community Hall Rental',
-                    'bylaws': 'Bylaws',
-                    'contactinfo': 'Contact Info',
-                    'announcements': 'Misc Announcements',
-                    'toggle': 'Αλλαγή Γλώσσας',
-                }
-            },
-
-            gr: {
-                translation: {
-                    'mainTitle': 'Ελληνική Ορθόδοξη Εκκλησία Αγ. Γεωργίου και Κοινοτικό Κέντρο',
-                    'commHallRent': "Ενοικίαση Κοινοτικής Αίθουσας",
-                    'bylaws': 'Εσωτερικοί Κανονισμοί',
-                    'contactinfo': 'Πληροφορίες Επικοινωνίας',
-                    'announcements': 'Ανακοινώσεις',
-                    'toggle': 'Switch to English'
-                }
-            }
-        }
-
-        var language = "en";
-
-        var SplashPage = function(language) {
-            self = this;
-
-            self.language = ko.observable(language);
-
-            self.contents = ko.computed(function () {
-
-                if (self.language().toLowerCase() == 'el-gr') {
-                    return resourceStore.gr.translation;
-                }
-                else {
-                    return resourceStore.en.translation;
-                }
-
-            }, self);
-
-            self.toggleLanguage = function () {
-                var l = self.language();
-                if (l.toLowerCase() == 'el-gr') {
-                    self.language('en-US');
-                }
-                else {
-                    self.language('el-GR');
-                }
-            }
-        };
-
-        var userLang = navigator.language || navigator.userLanguage; 
-        
-        window.instance = new SplashPage(userLang);
-
-
-        ko.applyBindings(window.instance);
-
-
-    </script>
+        <script src="/translation-dict.js"></script>
+        <script src="/main.js"></script>
+    </div>
 
 
     <!-- Bootstrap core JavaScript
